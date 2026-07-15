@@ -114,11 +114,22 @@ client.on(Events.InteractionCreate, async (interaction) => {
     await interaction.deferReply();
 
     try {
-      // 强制拉取最新的服务器成员列表
-      await guild.members.fetch();
-      
-      // 过滤出该身份组下所有非 Bot 的真实玩家
-      const eligibleMembers = role.members.filter((m) => !m.user.bot);
+  // 1. 精准拉取该身份组下的成员，而不是全服成员。同时设置 reasonable 的超时（例如 20 秒）
+  const fetchedMembers = await guild.members.fetch({
+    time: 20000, // 延长超时时间到 20 秒
+  });
+
+  // 2. 筛选出属于目标身份组且不是 Bot 的成员
+  const eligibleMembers = fetchedMembers.filter(
+    (member) => member.roles.cache.has(role.id) && !member.user.bot
+  );
+
+  if (eligibleMembers.size === 0) {
+    await interaction.editReply(`⚠️ 身份组 <@&${role.id}> 下没有找到任何成员（已排除机器人）。`);
+    return;
+  }
+  
+  // ... 后续的随机抽取和发送逻辑保持不变
 
       if (eligibleMembers.size === 0) {
         await interaction.editReply(`⚠️ 身份组 <@&${role.id}> 下没有找到任何成员（已排除机器人）。`);
