@@ -144,11 +144,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const actualCount = Math.min(count, eligibleMembers.size);
       const winners = pickRandom([...eligibleMembers.values()], actualCount);
 
-      // 2. 请求 n8n 从飞书表格拉取对应数量的未使用礼包码（状态不为 1）
+    // 2. 请求 n8n 从飞书表格拉取对应数量的未使用礼包码（状态不为 1）
       const codesResponse = await fetch(N8N_GET_CODES_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ count: actualCount })
+        body: JSON.stringify({ 
+          action: 'get_unused_codes', // 👈 补上这个字段，对应你 n8n Switch 的判断条件
+          count: actualCount 
+        })
       });
 
       if (!codesResponse.ok) {
@@ -200,7 +203,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
         await fetch(N8N_UPDATE_CODES_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ results: successResults })
+          body: JSON.stringify({ 
+            action: 'results', // 👈 补上这个字段，对应你 n8n Switch 的第二个分支
+            results: successResults 
+          })
         });
       }
 
