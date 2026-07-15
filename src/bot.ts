@@ -18,12 +18,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const token = process.env.DISCORD_BOT_TOKEN;
-const clientId = process.env.DISCORD_CLIENT_ID;
-const guildId = process.env.DISCORD_GUILD_ID; // 填了则注册为服务器指令，秒级生效
+const clientId = '1522168881609707562';
+const guildId = '766274145922318367'; // 填了则注册为服务器指令，秒级生效
 
 // n8n Webhook 接口配置
-const N8N_GET_CODES_URL = process.env.N8N_GET_CODES_URL;       // n8n 获取未发放礼包码接口
-const N8N_UPDATE_CODES_URL = process.env.N8N_UPDATE_CODES_URL; // n8n 标记成功并发放时间接口
+const N8N_GET_CODES_URL = 'https://n8n.neorigin.com.cn/webhook-test/raffle';       // n8n 获取未发放礼包码接口
+const N8N_UPDATE_CODES_URL = 'https://n8n.neorigin.com.cn/webhook-test/raffle'; // n8n 标记成功并发放时间接口
 
 if (!token) {
   console.error('❌ Error: DISCORD_BOT_TOKEN is not defined in .env file');
