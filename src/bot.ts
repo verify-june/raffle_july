@@ -30,7 +30,7 @@ dotenv.config();
 // ============================================================
 const token = process.env.DISCORD_BOT_TOKEN;
 const clientId = process.env.DISCORD_CLIENT_ID;
-const guildId = process.env.DISCORD_GUILD_ID; // 填了则注册为服务器指令，秒级生效
+const guildId = '766274145922318367'; // 填了则注册为服务器指令，秒级生效
 
 // 自动发码模式需要的 n8n webhook
 const N8N_GET_CODES_URL = process.env.N8N_GET_CODES_URL; // 读取未使用礼包码
